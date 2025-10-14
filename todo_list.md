@@ -3,4 +3,5 @@
     a) local environment
     b) setup.py
     c) requirements.txt
-2. 
+
+2. src and building the package
