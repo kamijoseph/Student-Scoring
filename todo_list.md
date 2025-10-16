@@ -19,3 +19,8 @@
     e. evaluating the model
     f. tuning the model
     g. saving the model
+
+4. work on components
+    a. data ingestion
+    b. data transformation
+    c. model trainer
