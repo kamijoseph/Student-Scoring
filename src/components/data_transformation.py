@@ -51,7 +51,7 @@ class DataTransformation:
                 steps = [
                     ("imputer", SimpleImputer(strategy = "most_frequent")),
                     ("one_hot_necoder", OneHotEncoder()),
-                    ("scaler", StandardScaler())
+                    ("scaler", StandardScaler(with_mean=False))
                 ]
             )
 
@@ -78,19 +78,19 @@ class DataTransformation:
 
             preprocess_obj = self.get_transformer()
 
-            X_train, y_train = train_data.drop("math_Score", axis=1), train_data["math_score"]
+            X_train, y_train = train_data.drop("math_score", axis=1), train_data["math_score"]
             X_test, y_test = test_data.drop("math_score", axis=1), test_data["math_score"]
 
-            logging.inf0("applying preprocessor on train and test datasets.............")
+            logging.info("applying preprocessor on train and test datasets.............")
 
             X_train_transformed = preprocess_obj.fit_transform(X_train)
             X_test_transformed = preprocess_obj.transform(X_test)
 
             train_array = np.c_[
-                X_train, np.array(y_train)
+                X_train_transformed, np.array(y_train)
             ]
             test_array = np.c_[
-                X_test, np.array(y_test)
+                X_test_transformed, np.array(y_test)
             ]
 
             logging.info('saved preprocessing object...............')
@@ -106,5 +106,5 @@ class DataTransformation:
                 self.data_transformation_config.preprocess_obj_path
             )
 
-        except:
-            pass
+        except Exception as e:
+            raise CustomException(e, sys)
